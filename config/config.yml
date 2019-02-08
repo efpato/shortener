@@ -1,0 +1,12 @@
+---
+
+app:
+  host: ''
+  port: 8000
+
+tarantool:
+  host: 'tarantool'
+  port: 3301
+  user: 'tarantool'
+  password: 'kdCm!u=8As396FF4'
+  space: 'shortener'

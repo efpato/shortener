@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  shortener:
+    build: .
+    image: shortener:latest
+    depends_on:
+      - tarantool
+    networks:
+      - shortener_net
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - '80:80'
+    volumes:
+      - ./docker/nginx/shortener.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - shortener
+    networks:
+      - shortener_net
+
+  tarantool:
+    image: tarantool/tarantool:1.10.2
+    environment:
+      TARANTOOL_USER_NAME: "tarantool"
+      TARANTOOL_USER_PASSWORD: "kdCm!u=8As396FF4"
+    networks:
+      - shortener_net
+
+networks:
+  shortener_net:
+    driver: bridge
