@@ -13,15 +13,18 @@ class Handler:
 
     async def generate(self, request):
         data = await request.post()
-        long_url = data.get('url', None)
+        long_url = data.get('url', None) or data.get('URL', None)
 
         if long_url is None:
             error = {'error': 'url is a required param'}
             return web.json_response(data=error, status=400)
 
+        expires = int(time()) + int(
+            self._app['config']['days_to_live'] * 86400)
+
         res = await self._app['tarantool'].insert(
-            self._app['conf']['tarantool']['space'],
-            (None, long_url, time()))
+            self._app['config']['tarantool']['space'],
+            (None, long_url, expires))
         idx, _, _ = res.data.pop()
         short_id = encode(idx)
 
@@ -35,7 +38,7 @@ class Handler:
         idx = decode(short_id)
 
         res = await self._app['tarantool'].select(
-            self._app['conf']['tarantool']['space'],
+            self._app['config']['tarantool']['space'],
             idx)
 
         if not res.data:

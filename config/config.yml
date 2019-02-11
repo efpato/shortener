@@ -1,8 +1,10 @@
 ---
 
-app:
-  host: ''
-  port: 8000
+days_to_live: 7
+
+logging:
+  level: 'debug'
+  format: '%(asctime)-15s %(levelname)-8s %(message)s'
 
 tarantool:
   host: 'tarantool'

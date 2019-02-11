@@ -2,19 +2,10 @@
 
 import string
 
-import yaml
-
 
 alphabet = ''.join((string.ascii_lowercase,
                     string.ascii_uppercase,
                     string.digits))
-
-
-def load_config(filename):
-    with open(filename) as f:
-        data = yaml.load(f)
-
-    return data
 
 
 def encode(num):

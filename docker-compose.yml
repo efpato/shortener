@@ -3,7 +3,7 @@ version: '2'
 services:
   shortener:
     build: .
-    image: shortener:latest
+    image: shortener
     depends_on:
       - tarantool
     networks:
@@ -21,10 +21,12 @@ services:
       - shortener_net
 
   tarantool:
-    image: tarantool/tarantool:1.10.2
+    build:
+      context: ./docker/tarantool
+    image: shortener-tarantool
     environment:
-      TARANTOOL_USER_NAME: "tarantool"
-      TARANTOOL_USER_PASSWORD: "kdCm!u=8As396FF4"
+      TARANTOOL_USER_NAME: "admin"
+      TARANTOOL_USER_PASSWORD: "G9YuMsd"
     networks:
       - shortener_net
 
