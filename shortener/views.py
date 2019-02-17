@@ -20,7 +20,7 @@ class Handler:
             return web.json_response(data=error, status=400)
 
         expires = int(time()) + int(
-            self._app['config']['days_to_live'] * 86400)
+            self._app['config']['days_to_live'] * 24 * 60 * 60)
 
         res = await self._app['tarantool'].insert(
             self._app['config']['tarantool']['space'],
@@ -29,8 +29,11 @@ class Handler:
         short_id = encode(idx)
 
         return web.json_response(
-            data={'url': long_url,
-                  'short_url': '%s%s' % (request.url, short_id)},
+            data={
+                'url': long_url,
+                'short_url': '%s%s' % (request.url, short_id),
+                'expires': expires
+            },
             status=201)
 
     async def redirect(self, request):
