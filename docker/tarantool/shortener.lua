@@ -23,11 +23,11 @@ end)
 
 expirationd = require('expirationd')
 
-function is_expired(args, tuple)
+local function is_expired(args, tuple)
   return tuple[3] < os.time()
 end
 
-function delete_tuple(space_id, args, tuple)
+local function delete_tuple(space_id, args, tuple)
   box.space[space_id]:delete{tuple[1]}
 end
 

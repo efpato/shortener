@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import argparse
+
 import aiotarantool
 from aiohttp import web
 
@@ -31,4 +33,12 @@ setup_routes(app, handler)
 setup_tarantool(app)
 
 if __name__ == '__main__':
-    web.run_app(app)
+    parser = argparse.ArgumentParser(description="Link shortener")
+    parser.add_argument('-a', '--address',
+                        help='binding address',
+                        default='127.0.0.1')
+    parser.add_argument('-p', '--port',
+                        help='binding port',
+                        default=8080)
+    args = parser.parse_args()
+    web.run_app(app, host=args.address, port=args.port)
