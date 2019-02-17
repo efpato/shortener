@@ -1,6 +1,6 @@
 ---
 
-days_to_live: 7
+keep_in_sec: 604800
 
 logging:
   level: 'debug'

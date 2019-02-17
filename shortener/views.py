@@ -13,14 +13,17 @@ class Handler:
 
     async def generate(self, request):
         data = await request.post()
-        long_url = data.get('url', None) or data.get('URL', None)
+        long_url = data.get('url') or data.get('URL')
+        keep_in_sec = data.get('keep_in_sec')
 
         if long_url is None:
             error = {'error': 'url is a required param'}
             return web.json_response(data=error, status=400)
 
-        expires = int(time()) + int(
-            self._app['config']['days_to_live'] * 24 * 60 * 60)
+        if keep_in_sec is None:
+            keep_in_sec = int(self._app['config']['keep_in_sec'])
+
+        expires = int(time()) + keep_in_sec
 
         res = await self._app['tarantool'].insert(
             self._app['config']['tarantool']['space'],
