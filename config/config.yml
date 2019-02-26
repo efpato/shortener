@@ -1,5 +1,7 @@
 ---
 
+user: 'user'
+password: 'password'
 keep_in_sec: 604800
 
 logging:
@@ -7,7 +9,7 @@ logging:
   format: '%(asctime)-15s %(levelname)-8s %(message)s'
 
 tarantool:
-  host: 'tarantool'
+  host: 'tarantool-master'
   port: 3301
   user: 'tarantool'
   password: 'kdCm!u=8As396FF4'

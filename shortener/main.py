@@ -3,6 +3,7 @@
 import argparse
 
 import aiotarantool
+import aiohttp_basicauth_middleware
 from aiohttp import web
 
 from shortener.routes import setup_routes
@@ -31,6 +32,12 @@ app['config'] = config
 handler = Handler(app)
 setup_routes(app, handler)
 setup_tarantool(app)
+app.middlewares.append(
+    aiohttp_basicauth_middleware.basic_auth_middleware(
+        ['/generate_short_link'],
+        {config['user']: config['password']},
+        aiohttp_basicauth_middleware.strategy.BaseStrategy
+    ))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Link shortener")

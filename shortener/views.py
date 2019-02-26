@@ -21,9 +21,9 @@ class Handler:
             return web.json_response(data=error, status=400)
 
         if keep_in_sec is None:
-            keep_in_sec = int(self._app['config']['keep_in_sec'])
+            keep_in_sec = self._app['config']['keep_in_sec']
 
-        expires = int(time()) + keep_in_sec
+        expires = int(time()) + int(keep_in_sec)
 
         res = await self._app['tarantool'].insert(
             self._app['config']['tarantool']['space'],
@@ -34,7 +34,7 @@ class Handler:
         return web.json_response(
             data={
                 'url': long_url,
-                'short_url': '%s%s' % (request.url, short_id),
+                'short_url': '%s/%s' % (request.url.origin(), short_id),
                 'expires': expires
             },
             status=201)
