@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import string
+import yaml
 
 
 alphabet = ''.join((string.ascii_lowercase,
@@ -26,3 +27,8 @@ def decode(short_id):
         index = alphabet.index(ch)
         num += index * len(alphabet) ** (len(short_id) - i - 1)
     return num
+
+
+def load_config(filename):
+    with open(filename) as f:
+        return yaml.load(f)
