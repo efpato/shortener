@@ -31,6 +31,8 @@ def setup_tarantool(app):
 def main():
     parser = argparse.ArgumentParser(
         prog='shortener', description='Link shortener')
+    parser.add_argument('-a', '--addr', help='binding address')
+    parser.add_argument('-p', '--port', help='binding port')
     parser.add_argument(
         '-c', '--config', help='path to the config file', required=True)
     args = parser.parse_args()
@@ -39,6 +41,9 @@ def main():
         config = load_config(args.config)
     except IOError:
         parser.error('config file "%s" not found or unreadable' % args.config)
+
+    addr = args.addr or config['addr']
+    port = args.port or config['port']
 
     logging.basicConfig(
         level=logging.getLevelName(config['logging']['level'].upper()),
@@ -54,7 +59,7 @@ def main():
                               {config['user']: config['password']},
                               BaseStrategy))
 
-    web.run_app(app, host=config['addr'], port=config['port'])
+    web.run_app(app, host=addr, port=port)
 
 
 if __name__ == '__main__':
