@@ -13,5 +13,5 @@ COPY shortener /app/shortener
 
 EXPOSE 8080
 
-ENTRYPOINT ["python", "-m", "shortener.main", "-a", "0.0.0.0", "-p", "8080"]
+ENTRYPOINT ["python", "-m", "shortener", "-a", "0.0.0.0", "-p", "8080"]
 
