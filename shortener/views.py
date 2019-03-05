@@ -34,7 +34,7 @@ class Handler:
         return web.json_response(
             data={
                 'url': long_url,
-                'short_url': '%s/%s' % (request.url.origin(), short_id),
+                'short_url': 'https://%s/%s' % (request.url.host, short_id),
                 'expires': expires
             },
             status=201)
